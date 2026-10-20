@@ -1,0 +1,70 @@
+import ipywidgets as widgets
+from IPython.display import display, clear_output
+
+# Título del formulario
+titulo = widgets.HTML("REGISTRO DE PRODUCTOS")
+
+# Campos de entrada
+txt_Producto = widgets.Text(
+    description="Producto:",
+    placeholder="Escriba el nombre"
+)
+
+txt_Precio = widgets.FloatText(
+    description="Precio (Bs):",
+    value=0.0
+)
+
+txt_Cantidad = widgets.IntText(
+    description="Cantidad:",
+    value=1
+)
+
+# Botón para registrar
+btn_Registrar = widgets.Button(
+    description="Registrar",
+    button_style="success",
+    icon="check"
+)
+
+# Área de resultados
+salida = widgets.Output()
+
+# Función para registrar el producto
+def registrar_producto(b):
+    with salida:
+        clear_output(wait=True)
+
+        Producto = txt_Producto.value.strip()
+        Precio = txt_Precio.value
+        Cantidad = txt_Cantidad.value
+
+        if not Producto:
+            print("Error: escriba el nombre del producto.")
+            return
+
+        if Precio < 0 or Cantidad <= 0:
+            print("Error: revise el precio y la cantidad.")
+            return
+
+        Total = Precio * Cantidad
+
+        print("PRODUCTO REGISTRADO")
+        print("------------------------------")
+        print(f"Producto: {Producto}")
+        print(f"Precio unitario: {Precio:.2f} Bs")
+        print(f"Cantidad: {Cantidad}")
+        print(f"Total: {Total:.2f} Bs")
+
+# Asociar el botón con la función
+btn_registrar.on_click(registrar_producto)
+
+# Mostrar el formulario
+display(
+    titulo,
+    txt_Producto,
+    txt_Precio,
+    txt_Cantidad,
+    btn_Registrar,
+    salida
+)
